@@ -17,7 +17,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return 'Hello_World'
+   return render_template('subtract.html', data=[{'operand':'+'}, {'operand':'-'}, {'operand':'*'}, {'operand':'/'}])
 
 @app.route('/home')
 def home():
@@ -35,13 +35,36 @@ def users(name):
 @app.route('/addition')
 def add():
     return render_template('addition.html')
+    
+@app.route('/subtract')
+def sub():
+    return render_template('subtract.html', data=[{'operand':'+'}, {'operand':'-'}, {'operand':'*'}, {'operand':'/'}])
+
+@app.route('/result',  methods=['POST'])
+def result():
+    firstNum = int(request.form['num1'])
+    secondNum = int(request.form['num2'])
+    result = firstNum + secondNum
+    return render_template('results.html', result=result)
 
 @app.route('/results',  methods=['POST'])
 def results():
     if request.method == 'POST':
-        firstNum = int(request.form['first_val'])
-        secondNum = int(request.form['second_val'])
-    return render_template('results.html', result=firstNum+secondNum)
+        print ( request.url )
+        firstNum = int(request.form['num1'])
+        secondNum = int(request.form['num2'])
+        operand = request.form['operand_select']
+        if operand == '+':
+            result = firstNum + secondNum
+        elif operand == '-':
+            result = firstNum - secondNum
+        elif operand == '*':
+            result = firstNum * secondNum
+        elif operand == '/':
+            result = firstNum / secondNum
+        else:
+            result = 0
+    return render_template('results.html', result=result)
     
 @app.route('/calc')
 def calc():
