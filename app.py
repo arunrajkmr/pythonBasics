@@ -2,7 +2,7 @@
 # Imports
 #----------------------------------------------------------------------------#
 
-from flask import Flask
+from flask import Flask, render_template
 
 #----------------------------------------------------------------------------#
 # App Config.
@@ -15,8 +15,12 @@ app = Flask(__name__)
 #----------------------------------------------------------------------------#
 
 @app.route('/')
-def home():
+def index():
     return 'Hello_World'
+
+@app.route('/home')
+def home():
+    return render_template('home.html')
 
 #----------------------------------------------------------------------------#
 # Launch.
