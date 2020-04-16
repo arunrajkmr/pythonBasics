@@ -21,6 +21,15 @@ def index():
 @app.route('/home')
 def home():
     return render_template('home.html')
+    
+@app.route('/user')
+def user():
+    name ='raj'
+    return render_template('user.html', title='User', message='Hello %s!' %name)
+    
+@app.route('/users/<name>')
+def users(name):
+    return render_template('user.html', title='User', message='Hello %s!' %name)
 
 #----------------------------------------------------------------------------#
 # Launch.
