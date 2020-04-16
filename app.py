@@ -42,6 +42,10 @@ def results():
         firstNum = int(request.form['first_val'])
         secondNum = int(request.form['second_val'])
     return render_template('results.html', result=firstNum+secondNum)
+    
+@app.route('/calc')
+def calc():
+    return render_template('calc.html')
 
 #----------------------------------------------------------------------------#
 # Launch.
