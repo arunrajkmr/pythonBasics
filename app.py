@@ -77,35 +77,71 @@ def results():
     
 @app.route('/calc')
 def calc():
-    return render_template('calc.html')
+    return render_template('calc.html')@app.route('/calc')
+
+@app.route('/inputJson')
+def input():
+    return render_template('input.html')
     
-@app.route('/recrusive')
+@app.route('/recrusive',  methods=['POST'])
 def recrusive():
-    URL = "https://pc-json-collection-api.herokuapp.com/json/3"
-    response = requests.get(URL)
-    data = response.json()
-    if len(data) > 0:
-        conn = create_connection(db_path)
-        print (conn)
-        for key, values in data.items():
-            if type(values) == dict:
-                traversedic(conn, values, URL)
-            else:
-                print (str(values))
-    cur = conn.cursor()
-    cur.execute('SELECT * FROM task')
-    rows = cur.fetchall()
-    for row in rows:
-        print(row)  
-    return render_template ('results.html', result=data)
+    if request.method == 'POST':
+        URL = request.form['url']
+        # URL = "https://pc-json-collection-api.herokuapp.com/json/4"
+        response = requests.get(URL)
+        print(response.status_code)
+        if(response.status_code == 200):
+            data = response.json()
+            if len(data) > 0:
+                conn = create_connection(db_path)
+                print (conn)
+                for key, values in data.items():
+                    if type(values) == dict:
+                        traversedic(conn, values, URL)
+                    elif type(values) == list:
+                        traverselist(conn, data[values], URL)
+                    else:
+                        print (key + "-" + str(values))
+                        add_to_public_table(conn, key, values, URL)
+            cur = conn.cursor()
+            select_sql = ''' SELECT * FROM task where url = :url '''
+            task_select_obj = {
+                'url' : URL
+            }
+            cur.execute(select_sql, task_select_obj)
+            rows = cur.fetchall()
+            for row in rows:
+                print(row)
+        else:
+            rows={}
+            URL = request.form['url']
+    else:
+        rows = {}
+        URL = request.form['url']
+    return render_template ('json.html', result=rows, url=URL)
 
 def traversedic(conn, dic, url):
+    print (type(dic))
     for key, value in dic.items():
-        if(type(value) is dict):
+        if (type(value) is dict):
             traversedic(conn, value, url)
+        elif (type(value) is list):
+            traverselist(conn, value, url)
         else:
             print (key + "-" + str(value))
             add_to_public_table(conn, key, value, url)
+
+def traverselist(conn, listObj, url):
+    if len(listObj) > 0:
+        for value in listObj:
+            print ('---------')
+            print (value)
+            print ('---------')
+            if(type(value) is dict):
+                traversedic(conn, value, url)
+            else:
+                print ("-" + str(value))
+                print (type(value))
 
 def add_to_public_table(conn, key, value, url):
     select_sql = ''' SELECT * FROM task WHERE key = :key AND value = :value'''
@@ -135,13 +171,13 @@ def add_to_public_table(conn, key, value, url):
         print (created_id)
 
 def main():
-    sql_create_tasks_table = """ CREATE TABLE IF NOT EXISTS tasks (
+    sql_create_tasks_table = ''' CREATE TABLE IF NOT EXISTS tasks (
                                         id integer PRIMARY KEY AUTOINCREMENT,
                                         url text,
                                         key text NOT NULL,
                                         value text,
                                         UNIQUE (key, value)
-                                    ); """
+                                    ); '''
 
     # create a database connection
     conn = create_connection(database)
