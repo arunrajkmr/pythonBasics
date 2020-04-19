@@ -18,9 +18,9 @@ class FileImageContent(luigi.Task):
         links = soup.find_all('a')
         with self.output().open('w') as fout :
             for link in links:
-                names = link.contents[0]
+                content = link.contents[0]
                 fullLink = link.get('href')
-                fout.write("Contect:{}, link:{}\n".format(names, fullLink))
+                fout.write("Content:{}, link:{}\n".format(content, fullLink))
 
 if __name__ == '__main__':
     luigi.run()
