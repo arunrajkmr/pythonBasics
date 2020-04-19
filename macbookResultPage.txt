@@ -1,0 +1,20 @@
+<table border="1" cellspacing="2" cellpadding="3">
+<tbody>
+<tr>
+<th>Image Link</th>
+<th>Image Content</th>
+</tr>
+<tr>
+<td><a href="https://images.craigslist.org/00b0b_bZrEY6O0k4X_300x300.jpg">buy intel core i7, core i5, core i3, laptop, desktop computer, macbook</a></td>
+<td>1837-1920</td>
+</tr>
+<tr>
+<td><a href="https://images.craigslist.org/00z0z_b0P0Y1VWmVZ_300x300.jpg">Sell me laptop, desktop computer pc, macbook, hd television tv, ps4</a></td>
+<td>1816-1879</td>
+</tr>
+<tr>
+<td><a href="https://images.craigslist.org/00I0I_d3xj6Wg8OI5_300x300.jpg">i buy macbook, hd television, laptop, ps vr, desktop computer pc</a></td>
+<td>1830-1880</td>
+</tr>
+</tbody>
+</table>
