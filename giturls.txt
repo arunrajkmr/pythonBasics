@@ -1,0 +1,7 @@
+https://github.com/scipy/scipy
+https://github.com/scipy-lectures/scipy-lecture-notes
+https://github.com/jakevdp/sklearn_scipy2013
+https://github.com/fonnesbeck/scipy2014_tutorial
+https://github.com/fonnesbeck/ScipySuperpack
+https://github.com/geopandas/scipy2018-geospatial-data
+https://github.com/amueller/scipy-2016-sklearn
